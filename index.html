@@ -11,7 +11,7 @@
 // Simple OOP example
 var sp; // Declare the object
 var spots =[];
-var numSpots =0;
+var numSpots =10;
 var gravity= 0.08;
 var friction= -0.9;
 var spring = 0.005;
@@ -44,7 +44,7 @@ function setup() {
     var c = color(red,green,blue, alpha);
     spots[i] = new Spot(w/2,h/2,random(1,50),random(-7,7), random(-7,7),c,i);
     
-   img = loadImage("cojo2901/piano.jpg");  // Load an image into the program
+   img = loadImage("C:/Users/mohannad/Desktop/cojo290/piano.jpg");  // Load an image into the program
 
   }
   stroke(255,255,255,100);
@@ -84,7 +84,7 @@ function draw() {
    image(img, 0, 500);  // Display at full opacity
 
   tint(200, 100);  // Display at half opacity
- image(img, offset, 0);
+ //image(img, offset, 0);
   
    if (keyIsDown(DOWN_ARROW)) {
       if (numSpots > 0) {
