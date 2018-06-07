@@ -18,7 +18,6 @@ var spring = 0.005;
 var offset = 0;
 var easing = 0.05;
 var bounce;
-var img;
    
   function preload() {
     soundFormats('mp3', 'ogg', 'wav');
@@ -41,7 +40,6 @@ function setup() {
     var c = color(red,green,blue, alpha);
     spots[i] = new Spot(w/2,h/2,random(1,50),random(-7,7), random(-7,7),c,i);
     
-   img = loadImage("C:/Users/mohannad/Desktop/temp/piano.jpg");  // Load an image into the program
 
   }
   stroke(255,255,255,100);
@@ -77,10 +75,6 @@ function draw() {
     spots[i].collide();
   }
 
-    image(img, 0, 500);  // Display at full opacity
-
-  tint(200, 100);  // Display at half opacity
-  image(img, offset, 0);
   
    if (keyIsDown(DOWN_ARROW)) {
       if (numSpots > 0) {
