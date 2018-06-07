@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title> Bounce </title>
+    <meta charset="utf-8" />
+    <script src="p5.min.js"></script>
+    <script src="p5.sound.min.js"></script>
+
+    <script>
+
+// Simple OOP example
+var sp; // Declare the object
+var spots =[];
+var numSpots =0;
+var gravity= 0.08;
+var friction= -0.9;
+var spring = 0.005;
+var offset = 0;
+var easing = 0.05;
+var bounce;
+var img;
+   
+  function preload() {
+    soundFormats('mp3', 'ogg', 'wav');
+    bounce = loadSound("bounce.mp3");
+
+  }
+
+
+function setup() {
+
+  w = windowWidth;
+  h = windowHeight;
+  createCanvas(w, h);
+
+  for(var i=0; i< numSpots; ++i){
+    red =random(256);
+    green =0;
+    blue =random(256);
+    alpha=random(256);
+    var c = color(red,green,blue, alpha);
+    spots[i] = new Spot(w/2,h/2,random(1,50),random(-7,7), random(-7,7),c,i);
+    
+   img = loadImage("C:/Users/mohannad/Desktop/temp/piano.jpg");  // Load an image into the program
+
+  }
+  stroke(255,255,255,100);
+}
+
+function mouseMoved(){
+    for(var i=0; i< numSpots; ++i){
+
+    spots[i].avoid();
+}
+}
+function mousePressed() {
+    bounce.play();
+  }
+
+
+function mouseDragged(){
+  numSpots++;
+   red =random(256);
+   green =0;
+   blue =random(256);
+   alpha=random(256);
+   var c = color(red,green,blue, alpha);
+    spots[numSpots-1] = new Spot(mouseX,mouseY,random(1,50),random(-7,7), random(-7,7),c,numSpots-1);
+}
+
+
+function draw() {  
+  background(0,0,0,15);
+  for(var i=0; i< numSpots; ++i){
+    spots[i].move();
+    spots[i].display();
+    spots[i].collide();
+  }
+
+    image(img, 0, 500);  // Display at full opacity
+
+  tint(200, 100);  // Display at half opacity
+  image(img, offset, 0);
+  
+   if (keyIsDown(DOWN_ARROW)) {
+      if (numSpots > 0) {
+        numSpots--;
+      delete spots[numSpots];
+    }
+   } 
+
+   if (keyIsDown(UP_ARROW)){
+    if (numSpots >= 0) {
+        numSpots++;
+    red =random(256);
+    green =0;
+    blue =random(256);
+    alpha=random(256);
+    var c = color(red,green,blue, alpha);
+    spots[i] = new Spot(w/2,h/2,random(1,50),random(-7,7), random(-7,7),c,i);
+          count = numSpots++;
+
+    }
+   }
+   }
+  
+
+
+// function to define a class
+function Spot(xpos,ypos,diameter,xdir,ydir,scol,sid) {    
+  // Construct the object 
+  this.x = xpos;
+  this.y = ypos;
+  this.d = diameter;
+  this.xd= xdir;
+  this.yd= ydir;
+  this.c= scol;
+  this.sid = sid;
+ 
+  // method to display the object
+  this.display = function() {
+    fill(this.c);
+    var w8 = this.d * 0.125;
+    strokeWeight(w8);
+    ellipse(this.x,this.y,this.d,this.d);
+  }
+  this.move = function(){
+
+    this.x += this.xd;
+    this.y += this.yd;
+    this.yd += gravity;
+    var amp_x = map(abs(this.xd),0,7,0,1);
+    var amp_y = map(abs(this.yd),0,9,0,1);
+    var p = map(this.x,0,w,-1,1);
+    var f = map(this.d,1,50,4,0.5);
+    bounce.pan(p);
+    bounce.rate(f);
+    
+
+
+     if(this.x + this.d/2 > w ) {
+      this.x = w- this.d/2;
+      this.xd *= friction;
+      bounce.amp(amp_x);
+      bounce.play();
+
+    }
+      if( this.x - this.d/2 < 0){
+      this.x = this.d/2;
+      this.xd *= friction;
+      bounce.amp(amp_x);
+      bounce.play();
+
+    }
+
+    if(this.y + this.d/2 > h ) {
+      this.y = h-this.d/2;
+       this.yd *= friction;
+       bounce.amp(amp_y);
+      bounce.play();
+    }
+    if( this.y - this.d/2 < 0){
+      this.y = this.d/2;
+      this.yd *= friction;
+      bounce.amp(amp_y);
+      bounce.play();
+
+    }
+  }
+
+  this.avoid = function(){
+    if (abs(this.x - mouseX) < this.d/2 && abs(this.y-mouseY)<this.d/2){
+      this.xd = random(-7,7);
+      this.yd = random(0, -10);
+
+    }
+  }
+  this.collide = function() {
+      for ( var i=0; i < numSpots; ++i ) {
+        if ( this.sid != i ) {
+          var xdist = spots[i].x - this.x;
+          var ydist = spots[i].y - this.y;
+          var distance = sqrt(xdist**2 + ydist**2);
+          var minDist = spots[i].d/2 + this.d/2;
+          if ( distance < minDist ) {
+            var angle = atan2(xdist,ydist);
+            var targetX = this.x + cos(angle) * minDist;
+            var targetY = this.y + sin(angle) * minDist;
+            var ax = (targetX - spots[i].x) * spring;
+            var ay = (targetY - spots[i].y) * spring;
+            this.xd -= ax;
+            this.yd -= ay;
+            spots[i].xd += ax;
+            spots[i].yd += ay;
+          }
+        }
+      }
+    }
+    this.sticky_collide = function() {
+      for ( var i=0; i < numSpots; ++i ) {
+        if ( this.sid != i ) {
+          var xdist = abs(spots[i].x - this.x);
+          var ydist = abs(spots[i].y - this.y);
+          var arad = (spots[i].d + this.d)/2;
+          if ( xdist < arad && ydist < arad ) {
+            this.xd *= friction;
+            this.yd *= friction;
+            spots[i].xd *= friction;
+            spots[i].yd *= friction;
+          }
+        }
+      }
+}
+}
+
+  </script>
+</head>
+  <body>
+   
+  </body>
+</html>
+
