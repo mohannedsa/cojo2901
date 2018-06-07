@@ -11,17 +11,21 @@
 // Simple OOP example
 var sp; // Declare the object
 var spots =[];
-var numSpots =0;
+var numSpots =10;
 var gravity= 0.08;
 var friction= -0.9;
 var spring = 0.005;
 var offset = 0;
 var easing = 0.05;
 var bounce;
+var bounce1;
+//var img;
    
   function preload() {
     soundFormats('mp3', 'ogg', 'wav');
     bounce = loadSound("bounce.mp3");
+    bounce1 = loadSound("bounce1.mp3");
+
 
   }
 
@@ -40,6 +44,7 @@ function setup() {
     var c = color(red,green,blue, alpha);
     spots[i] = new Spot(w/2,h/2,random(1,50),random(-7,7), random(-7,7),c,i);
     
+   img = loadImage("C:/Users/mohannad/Desktop/cojo290/piano.jpg");  // Load an image into the program
 
   }
   stroke(255,255,255,100);
@@ -53,6 +58,7 @@ function mouseMoved(){
 }
 function mousePressed() {
     bounce.play();
+    bounce1.play();
   }
 
 
@@ -75,6 +81,10 @@ function draw() {
     spots[i].collide();
   }
 
+   image(img, 0, 500);  // Display at full opacity
+
+  tint(200, 100);  // Display at half opacity
+ image(img, offset, 0);
   
    if (keyIsDown(DOWN_ARROW)) {
       if (numSpots > 0) {
@@ -129,6 +139,8 @@ function Spot(xpos,ypos,diameter,xdir,ydir,scol,sid) {
     var f = map(this.d,1,50,4,0.5);
     bounce.pan(p);
     bounce.rate(f);
+    bounce1.pan(p);
+    bounce1.rate(f);
     
 
 
@@ -136,27 +148,27 @@ function Spot(xpos,ypos,diameter,xdir,ydir,scol,sid) {
       this.x = w- this.d/2;
       this.xd *= friction;
       bounce.amp(amp_x);
-      bounce.play();
+      bounce1.play();
 
     }
       if( this.x - this.d/2 < 0){
       this.x = this.d/2;
       this.xd *= friction;
       bounce.amp(amp_x);
-      bounce.play();
+      bounce1.play();
 
     }
 
     if(this.y + this.d/2 > h ) {
       this.y = h-this.d/2;
        this.yd *= friction;
-       bounce.amp(amp_y);
+       bounce1.amp(amp_y);
       bounce.play();
     }
     if( this.y - this.d/2 < 0){
       this.y = this.d/2;
       this.yd *= friction;
-      bounce.amp(amp_y);
+      bounce1.amp(amp_y);
       bounce.play();
 
     }
