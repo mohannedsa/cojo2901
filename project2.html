@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<title>HTML5 Bouncing Ball</title>
+	<script src="p5.min.js"></script>
+	<script src="dat.gui.min.js"></script>
+	<script>
+	var shapeMax;
+	var bgcolor = 0;
+	var stkColor = 255;
+	var shapeSize;
+	var bottom;
+	var w;
+	var h;
+	var angle = 0;
+	var cd = 0;
+	var ca = 1;
+	var ra = -1.0;
+	var aa = 1.0;
+	var strokeOff = true;
+	var resetBG = false;
+	var text;
+	var gui;
+	var fR;
+	function setup() {
+		frameRate(60);
+		w = windowWidth;
+		h = windowHeight;
+		//WEBGL  diffrent rendering options
+		createCanvas(w, h, WEBGL);
+		background(bgcolor);
+		shapeMax = Math.floor(h * 0.70);
+		shapeSize = shapeMax;
+		// dat.GUI stuff
+		var datInterface = function() {
+			this.message = 'talk to me';
+			this.alpha = 64;
+			this.frameRate = 60;
+			this.displayOutline = true;
+			this.randomColor = function() { 
+				// define explode function
+				//alert("EXPLODED!!!")
+				this.color = [random(0,255),random(0,255),random(0,255)];
+				gui.__controllers[5].upDateDisplay();
+			};
+			this.color = [0,128,255];
+			this.float =0.0001;
+		};
+		text = new datInterface();
+		gui = new dat.GUI();
+		gui.add(text, 'message');
+		fR = gui.add(text, 'frameRate',5,60); // use for controller
+		gui.add(text, 'alpha', 0, 255);
+		gui.add(text, 'displayOutline');
+		gui.add(text, 'randomColor');
+		gui.addColor(text,'color');
+		gui.add(text,'float',0,1);
+		fR.onChange(function(value) {
+			frameRate(value);
+		});
+	}
+	function keyTyped() {
+		if (key == 's') {
+			text.displayOutline =! text.displayOutline 
+			gui.__controllers[3].upDateDisplay();
+		}
+	}
+	function draw() {
+		background(color(0,0,0,1));
+		noStroke(); 
+		rectMode(CENTER);
+		cd += ca;
+		if ( text.displayOutline ) {
+			strokeWeight(1);
+			stroke(text.color);
+		}
+		else {
+			noStroke();
+		}
+		fill(text.color[0],text.color[1],text.color[2],text.alpha);
+		rotateX(radians(angle));
+		rotateY(radians(angle));
+		// plane() sphere() cylinder() cone() ellipsoid()
+		// torus(shapeSize/2, shapeSize/5);
+		// cylinder(shapeSize/2,shapeSize);
+		// cone(shapeSize/2,shapeSize);
+		box(shapeSize);
+		cone(shapeSize*0.5)
+		shapeSize -= (mouseY - h / 2) * 0.0125;
+		angle += (mouseX - w / 2) * 0.0125;
+		if (shapeSize < 1) {
+			shapeSize = 0;
+		}
+		if (shapeSize > shapeMax) {
+			shapeSize = shapeMax;
+		}
+		
+	}
+	</script>
+</head>
+<body style="background: #000; margin:0;">
+</body>
+</html>
