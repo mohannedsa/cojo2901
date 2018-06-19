@@ -2,9 +2,10 @@
 <html>
 <head>
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-	<title>MO Projects</title>
+	<title>HTML5 Bouncing Ball</title>
 	<script src="p5.min.js"></script>
 	<script src="dat.gui.min.js"></script>
+	<script src="p5.sound.js"></script>
 	<script>
 	var shapeMax;
 	var bgcolor = 0;
@@ -23,6 +24,17 @@
 	var text;
 	var gui;
 	var fR;
+	
+
+	var music;
+
+function preload() {
+    soundFormats('mp3', 'ogg', 'wav');
+    bounce = loadSound("music.mp3");
+
+  }
+
+
 	function setup() {
 		frameRate(60);
 		w = windowWidth;
@@ -34,10 +46,13 @@
 		shapeSize = shapeMax;
 		// dat.GUI stuff
 		var datInterface = function() {
+
 			this.message = 'talk to me';
 			this.alpha = 64;
 			this.frameRate = 60;
 			this.displayOutline = true;
+			this.music = true;
+		
 			this.randomColor = function() { 
 				// define explode function
 				//alert("EXPLODED!!!")
@@ -46,6 +61,9 @@
 			};
 			this.color = [0,128,255];
 			this.float =0.0001;
+
+		
+
 		};
 		text = new datInterface();
 		gui = new dat.GUI();
@@ -56,15 +74,23 @@
 		gui.add(text, 'randomColor');
 		gui.addColor(text,'color');
 		gui.add(text,'float',0,1);
+		gui.add(text ,'music' );
+
 
 		fR.onChange(function(value) {
 			frameRate(value);
+
 		});
 	}
 	function keyTyped() {
 		if (key == 's') {
 			text.displayOutline =! text.displayOutline 
 			gui.__controllers[3].upDateDisplay();
+		}
+		else if (key == 'p') {
+			music.play();
+			text.music =! text.music 
+			gui.__controllers[7].upDateDisplay();
 		}
 	}
 	function draw() {
@@ -88,7 +114,9 @@
 		// cylinder(shapeSize/2,shapeSize);
 		// cone(shapeSize/2,shapeSize);
 		box(shapeSize);
-		cone(shapeSize*0.5)
+		torus(shapeSize*0.5)
+		cylinder(shapeSize*0.25)
+		cone(shapeSize*0.125)
 		shapeSize -= (mouseY - h / 2) * 0.0125;
 		angle += (mouseX - w / 2) * 0.0125;
 		if (shapeSize < 1) {
@@ -96,6 +124,7 @@
 		}
 		if (shapeSize > shapeMax) {
 			shapeSize = shapeMax;
+
 		}
 		
 	}
