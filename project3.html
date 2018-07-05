@@ -25,6 +25,7 @@
 	var gui;
 	var fR;
 	
+	
 	var music;
 function preload() {
     soundFormats('mp3', 'ogg', 'wav');
@@ -66,7 +67,8 @@ function preload() {
 		gui.add(text, 'randomColor');
 		gui.addColor(text,'color');
 		gui.add(text,'float',0,1);
-		gui.add(text ,'music');
+		gui.add(text ,'music' );
+		
 		fR.onChange(function(value) {
 			frameRate(value);
 		});
@@ -80,16 +82,17 @@ function preload() {
 			if (!music.isPlaying()) {
 				music.loop();
 				text.music != text.music 
-				gui.__controllers[7].upDateDisplay();
+				gui.__controllers[7].updateDisplay();
+			}
 			else {
 				music.pause();
 				text.music != text.music 
-				gui.__controllers[7].upDateDisplay();
+				gui.__controllers[7].updateDisplay();
 			}
 		}
 	}
 	function draw() {
-		background(color(0,0,0,2));
+		background(color(0,0,0,1));
 		noStroke(); 
 		rectMode(CENTER);
 		cd += ca;
