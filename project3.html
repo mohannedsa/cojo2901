@@ -24,7 +24,7 @@
 	var text;
 	var gui;
 	var fR;
-	var ms;	
+	
 	
 
 	var music;
@@ -72,7 +72,7 @@ function preload() {
 		fR = gui.add(text, 'frameRate',5,60); // use for controller
 		gui.add(text, 'alpha', 0, 255);
 		gui.add(text, 'displayOutline');
-		mc = gui.add(text ,'music' );
+		gui.add(text ,'music' );
 		gui.add(text, 'randomColor');
 		gui.addColor(text,'color');
 		gui.add(text,'float',0,1);
