@@ -69,12 +69,13 @@ function preload() {
 		gui = new dat.GUI();
 		gui.add(text, 'message');
 		fR = gui.add(text, 'frameRate',5,60); // use for controller
+		mc = gui.add(text ,'music' );
 		gui.add(text, 'alpha', 0, 255);
 		gui.add(text, 'displayOutline');
 		gui.add(text, 'randomColor');
 		gui.addColor(text,'color');
 		gui.add(text,'float',0,1);
-		gui.add(text ,'music' );
+		
 
 
 		fR.onChange(function(value) {
@@ -91,12 +92,12 @@ function preload() {
 			if (!music.isPlaying()) {
 				music.loop();
 				text.music != text.music 
-				gui.__controllers[7].updateDisplay();
+				gui.__controllers[4].updateDisplay();
 			}
 			else {
 				music.pause();
 				text.music != text.music 
-				gui.__controllers[7].updateDisplay();
+				gui.__controllers[4].updateDisplay();
 			}
 		}
 	}
