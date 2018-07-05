@@ -91,12 +91,12 @@ function preload() {
 			if (!music.isPlaying()) {
 				music.loop();
 				text.music != text.music 
-				gui.__controllers[7].upDateDisplay();
+				gui.__controllers[7].updateDisplay(text.music);
 			}
 			else {
 				music.pause();
 				text.music != text.music 
-				gui.__controllers[7].upDateDisplay();
+				gui.__controllers[7].updatedisplay(text.music);
 			}
 		}
 	}
