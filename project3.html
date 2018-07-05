@@ -51,7 +51,8 @@ function preload() {
 			this.alpha = 64;
 			this.frameRate = 60;
 			this.displayOutline = true;
-			this.music = true;
+			this.music = text.music =! text.music 
+			gui.__controllers[7].upDateDisplay();
 		
 			this.randomColor = function() { 
 				// define explode function
