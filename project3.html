@@ -25,17 +25,11 @@
 	var gui;
 	var fR;
 	
-	
-
 	var music;
-
 function preload() {
     soundFormats('mp3', 'ogg', 'wav');
     music = loadSound("music.mp3");
-
   }
-
-
 	function setup() {
 		frameRate(60);
 		w = windowWidth;
@@ -47,7 +41,6 @@ function preload() {
 		shapeSize = shapeMax;
 		// dat.GUI stuff
 		var datInterface = function() {
-
 			this.message = 'talk to me';
 			this.alpha = 64;
 			this.frameRate = 60;
@@ -62,9 +55,7 @@ function preload() {
 			};
 			this.color = [0,128,255];
 			this.float =0.0001;
-
 		
-
 		};
 		text = new datInterface();
 		gui = new dat.GUI();
@@ -75,14 +66,9 @@ function preload() {
 		gui.add(text, 'randomColor');
 		gui.addColor(text,'color');
 		gui.add(text,'float',0,1);
-		gui.add(text ,'music' );
-
-		
-
-
+		gui.add(text ,'music');
 		fR.onChange(function(value) {
 			frameRate(value);
-
 		});
 	}
 	function keyTyped() {
@@ -95,7 +81,6 @@ function preload() {
 				music.loop();
 				text.music != text.music 
 				gui.__controllers[7].updateDisplay();
-			}
 			else {
 				music.pause();
 				text.music != text.music 
@@ -118,7 +103,6 @@ function preload() {
 		fill(text.color[0],text.color[1],text.color[2],text.alpha);
 		rotateX(radians(angle));
 		rotateY(radians(angle));
-
 		// plane() sphere() cylinder() cone() ellipsoid()
 		// torus(shapeSize/2, shapeSize/5);
 		// cylinder(shapeSize/2,shapeSize);
@@ -134,7 +118,6 @@ function preload() {
 		}
 		if (shapeSize > shapeMax) {
 			shapeSize = shapeMax;
-
 		}
 		
 	}
